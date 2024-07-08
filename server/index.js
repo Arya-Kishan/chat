@@ -1,14 +1,59 @@
 const express = require('express');
-const dotenv = require('dotenv');
-const PORT = 8080 || process.env.PORT;
-dotenv.config({});
-
 const app = express();
+const dotenv = require("dotenv")
+const http = require('http');
+const cors = require('cors');
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+dotenv.config({});
+const io = new Server(server, {
+    cors: {
+        origin: "*",
+        methods: ["GET", "POST"],
+        credentials: true,
+    }
+});
 
-app.get("/", (req, res) => {
-    res.send("THIS IS ARYA STRIPE TEST MODE")
-})
+app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
+app.use(cors({
+    origin: "*",
+    methods: ["GET", "POST"],
+    credentials: true,
+}))
 
-app.listen(PORT, () => {
-    console.log('SERVER LISTENED AT PORT 8080')
+app.get('/', (req, res) => {
+    res.send('arya');
+});
+
+let userSocketMap = {};
+
+const getSocketIdByUserId = (userId) => {
+    return userSocketMap[userId];
+}
+
+io.on('connection', (socket) => {
+    console.log('a user connected', socket.handshake.query.userName);
+
+    const userId = socket.handshake.query.userName;
+    if (userId !== undefined) {
+        userSocketMap[userId] = socket.id;
+    }
+
+    socket.on("send_message", (val) => {
+        console.log(val);
+        console.log(userSocketMap);
+
+        socket.broadcast.emit("receive_message", val)
+
+    })
+
+    socket.on('disconnect', () => {
+        console.log('user disconnected');
+    });
+
+});
+
+server.listen(process.env.PORT, () => {
+    console.log(`listening on :${process.env.PORT}`);
 });

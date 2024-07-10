@@ -21,6 +21,7 @@ const HomePage = () => {
         let message = { id: uniqId(), user: user, message: inputRef.current.value }
         setMessages([...messages, message])
         globalSocket?.emit("send_message", message)
+        inputRef.current.value = ""
     }
 
     const handleUp = (e) => {
@@ -40,9 +41,9 @@ const HomePage = () => {
 
     }, [globalSocket])
 
-    useEffect(()=>{
+    useEffect(() => {
         chatBoxRef?.current?.scrollIntoView({ behavior: "smooth" });
-    },[messages])
+    }, [messages])
 
 
     return (
@@ -50,27 +51,29 @@ const HomePage = () => {
 
             {user == "" && <Navigate to={"/"} />}
 
-            <div className='w-full h-[56px] flex justify-between items-center bg-teal-600 p-2'>
-                <img className='w-[40px]' src="https://api.multiavatar.com/Starcrasher.svg" alt="" srcset="" />
-                <span className='font-semibold pr-4 capitalize'>{user}</span>
-            </div>
-
-            <div className='w-full h-full flex flex-col gap-3 z-10 p-2 overflow-scroll'>
-                {messages?.map((e, i) => (<div key={e.id} className={`w-full flex ${e.user == user ? 'justify-end' : 'justify-start'} z-10`}>
-                    <p ref={chatBoxRef} className='w-[50%] p-2 rounded-lg bg-teal-300'>{e.message}</p>
-                </div>))}
-            </div>
-
-            <div className='w-full h-[56px] flex justify-center items-centerp-2 bg-[#01012A]'>
-
-                <div className='w-[98%] flex justify-center rounded-lg'>
-                    <input onKeyUp={handleUp} className='w-full  rounded-l-lg' ref={inputRef} type="text" />
-                    <button className='w-[10%] bg-teal-400 p-2  rounded-r-lg' onClick={() => handleSend()}>Send</button>
+            {!globalSocket ? <>
+                <div className='w-full h-[56px] flex justify-between items-center bg-teal-600 p-2'>
+                    <img className='w-[40px]' src="https://api.multiavatar.com/Starcrasher.svg" alt="" srcset="" />
+                    <span className='font-semibold pr-4 capitalize'>{user}</span>
                 </div>
 
-            </div>
+                <div className='w-full h-full flex flex-col gap-3 z-10 p-2 overflow-scroll'>
+                    {messages?.map((e, i) => (<div key={e.id} className={`w-full flex ${e.user == user ? 'justify-end' : 'justify-start'} z-10`}>
+                        <p ref={chatBoxRef} className='w-[50%] p-2 rounded-lg bg-teal-300'>{e.message}</p>
+                    </div>))}
+                </div>
 
-            <img className='absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] w-[200px] z-5 opacity-[0.1]' src={cute1} alt="" srcSet="" />
+                <div className='w-full h-[56px] flex justify-center items-centerp-2 bg-[#01012A]'>
+
+                    <div className='w-[98%] flex justify-center rounded-lg'>
+                        <input onKeyUp={handleUp} className='w-full  rounded-l-lg' ref={inputRef} type="text" />
+                        <button className='w-[10%] bg-teal-400 p-2  rounded-r-lg' onClick={() => handleSend()}>Send</button>
+                    </div>
+
+                </div>
+
+                <img className='absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] w-[200px] z-5 opacity-[0.1]' src={cute1} alt="" srcSet="" />
+            </> : <div className='w-full h-dvh flex justify-center items-center'>Loading...</div>}
 
 
         </div>

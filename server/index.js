@@ -45,15 +45,14 @@ io.on('connection', (socket) => {
     io.emit("onlineUsers", Object.keys(userSocketMap))
 
     socket.on("send_message", (val) => {
-        console.log(val);
-        console.log(userSocketMap);
-
         socket.broadcast.emit("receive_message", val)
+    })
 
+    socket.on("delete", (val) => {
+        io.emit("delete", val)
     })
 
     socket.on('disconnect', () => {
-        console.log('user disconnected');
         io.emit("left", socket.handshake.query.userName)
         delete userSocketMap[userId];
         io.emit("onlineUsers", Object.keys(userSocketMap))

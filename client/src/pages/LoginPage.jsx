@@ -2,6 +2,7 @@ import React, { useContext, useRef } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { MyContext } from '../Context/Context';
 import cute from '../assets/cute5.png'
+import { toast } from 'react-toastify';
 
 const LoginPage = () => {
 
@@ -12,15 +13,17 @@ const LoginPage = () => {
 
     const handleLogin = async () => {
         setUser(inputRef1.current.value);
-        if (inputRef2.current.value == "as") {
+        if (inputRef2.current.value == "vishwa") {
             navigate("/home")
+        } else {
+            toast("wrong password")
         }
     }
 
     return (
         <div className='w-full h-dvh flex flex-col justify-center items-center'>
 
-            <div className='w-[100%] lg:w-[70%] flex flex-col justify-center items-center gap-5 pb-[100px]'>
+            <div className='w-[90%] lg:w-[70%] flex flex-col justify-center items-center gap-5 pb-[100px]'>
                 <img className='w-[150px]' src={cute} alt="" srcSet="" />
                 <input className='w-full border-2 p-2 rounded-md' ref={inputRef1} type="text" placeholder='Name...' />
                 <input className='w-full border-2 p-2 rounded-md' ref={inputRef2} type="text" placeholder='Password...' />

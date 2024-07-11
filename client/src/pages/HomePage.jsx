@@ -51,6 +51,10 @@ const HomePage = ({ showHomePage }) => {
             toast(`${val} left`)
         })
 
+        globalSocket?.on("delete", (val) => {
+            setMessages([])
+        })
+
         return () => globalSocket?.off("receive_message");
 
     }, [globalSocket])
@@ -58,6 +62,10 @@ const HomePage = ({ showHomePage }) => {
     useEffect(() => {
         chatBoxRef?.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages])
+
+    const handleDelete = () =>{
+        globalSocket?.emit("delete","all _messages")
+    }
 
     console.log(showOnline);
 
@@ -92,8 +100,9 @@ const HomePage = ({ showHomePage }) => {
             </> : <div className='w-full h-dvh flex justify-center items-center'>Loading...</div>}
 
             {showOnline && <div onClick={() => setShowOnline(false)} className='w-full h-dvh fixed top-0 left-0 flex justify-center items-center bg-gradient-to-t from-black z-30'>
-                <div onClick={(e) => e.stopPropagation()} className='w-[70%] h-[50%] flex flex-col gap-2 overflow-scroll bg-teal-500 rounded-lg p-2'>
+                <div onClick={(e) => e.stopPropagation()} className='w-[70%] h-[50%] flex flex-col gap-2 overflow-scroll bg-teal-500 rounded-lg p-2 relative'>
                     {onlineUser?.map((e, i) => (<p className='capitalize font-medium'>{i + 1}.  {e}</p>))}
+                    <button onClick={()=>handleDelete()} className='absolute bottom-2 right-3 p-2 text-[14px] bg-red-700 text-white rounded-lg'>Delete messages</button>
                 </div>
             </div>}
 

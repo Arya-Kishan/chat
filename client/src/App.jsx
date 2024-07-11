@@ -20,7 +20,8 @@ function App() {
       console.log("connecting to socket");
 
       // https://chat-4o4m.onrender.com
-      globalSocket = io("http://localhost:8080", {
+      // http://localhost:8080
+      globalSocket = io("https://chat-4o4m.onrender.com", {
         query: {
           userName: user
         }

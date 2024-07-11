@@ -40,6 +40,10 @@ io.on('connection', (socket) => {
         userSocketMap[userId] = socket.id;
     }
 
+    io.emit("joined", socket.handshake.query.userName)
+
+    io.emit("onlineUsers", Object.keys(userSocketMap))
+
     socket.on("send_message", (val) => {
         console.log(val);
         console.log(userSocketMap);
@@ -50,6 +54,9 @@ io.on('connection', (socket) => {
 
     socket.on('disconnect', () => {
         console.log('user disconnected');
+        io.emit("left", socket.handshake.query.userName)
+        delete userSocketMap[userId];
+        io.emit("onlineUsers", Object.keys(userSocketMap))
     });
 
 });

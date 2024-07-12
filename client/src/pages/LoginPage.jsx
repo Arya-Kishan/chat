@@ -13,10 +13,16 @@ const LoginPage = () => {
 
     const handleLogin = async () => {
         setUser(inputRef1.current.value);
-        if (inputRef2.current.value == "vishwa") {
+        if (inputRef2.current.value == "arya") {
             navigate("/home")
         } else {
             toast("wrong password")
+        }
+    }
+
+    const handleUp = (e) => {
+        if (e.key == "Enter") {
+            handleLogin();
         }
     }
 
@@ -26,7 +32,7 @@ const LoginPage = () => {
             <div className='w-[90%] lg:w-[70%] flex flex-col justify-center items-center gap-5 pb-[100px]'>
                 <img className='w-[150px]' src={cute} alt="" srcSet="" />
                 <input className='w-full border-2 p-2 rounded-md' ref={inputRef1} type="text" placeholder='Name...' />
-                <input className='w-full border-2 p-2 rounded-md' ref={inputRef2} type="text" placeholder='Password...' />
+                <input onKeyUp={handleUp} className='w-full border-2 p-2 rounded-md' ref={inputRef2} type="text" placeholder='Password...' />
                 <button className='w-full bg-teal-500 shadow-lg p-2 rounded-md' onClick={handleLogin}>JOIN</button>
             </div>
 

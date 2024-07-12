@@ -6,6 +6,7 @@ import cute3 from '../assets/cute3.png'
 import cute4 from '../assets/cute4.png'
 import cute5 from '../assets/cute5.png'
 import send from '../assets/send.svg'
+import star1 from '../assets/star1.svg'
 import { MyContext } from '../Context/Context';
 import { globalSocket } from '../App';
 import { Navigate } from 'react-router-dom';
@@ -63,8 +64,8 @@ const HomePage = ({ showHomePage }) => {
         chatBoxRef?.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages])
 
-    const handleDelete = () =>{
-        globalSocket?.emit("delete","all _messages")
+    const handleDelete = () => {
+        globalSocket?.emit("delete", "all _messages")
     }
 
     console.log(showOnline);
@@ -81,30 +82,39 @@ const HomePage = ({ showHomePage }) => {
                     <span onClick={() => setShowOnline(true)} className='font-semibold pr-4 capitalize'>online</span>
                 </div>
 
+                {/* SHOWING MESSAGES */}
                 <div className='w-full h-full flex flex-col gap-3 z-10 p-2 overflow-scroll'>
                     {messages?.map((e, i) => (<div key={e.id} className={`w-full flex ${e.user == user ? 'justify-end' : 'justify-start'} z-10`}>
-                        <p ref={chatBoxRef} className='w-[50%] p-2 rounded-lg bg-teal-300'>{e.message}</p>
+                        <div ref={chatBoxRef} className={`w-[50%] p-2 rounded-lg ${e.user == user ? 'bg-pink-900' : 'bg-pink-700'}`}>
+                            <p className='text-[10px] capitalize'>{e.user}</p>
+                            <p>{e.message}</p>
+                        </div>
                     </div>))}
                 </div>
 
+                {/* WRITE MESSAGES INPUT */}
                 <div className='w-full h-[56px] flex justify-center items-centerp-2 bg-[#01012A]'>
 
-                    <div className='w-[98%] flex justify-center rounded-lg mb-1'>
-                        <input onKeyUp={handleUp} className='w-full  rounded-lg p-1' ref={inputRef} type="text" placeholder='Write your message ....' />
-                        <img onClick={() => handleSend()} className='w-[30px] p-1' src={send} alt="" srcset="" />
+                    <div className='w-[98%] flex justify-center items-center gap-1 rounded-lg mb-1 bg-gray-300 px-2'>
+                        <input onKeyUp={handleUp} className='w-full bg-gray-300' ref={inputRef} type="text" placeholder='Write your message ....' />
+                        <div className='bg-pink-500 rounded-full w-[30px] h-[30px] flex justify-center items-center'><img onClick={() => handleSend()} className='w-[30px] p-1' src={send} alt="" srcSet="" /></div>
                     </div>
 
                 </div>
 
-                <img className='absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] w-[200px] z-5 opacity-[0.1]' src={cute1} alt="" srcSet="" />
+                {/* BACKGROUND IMAGE OPACITY LOW */}
+                <img className='absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] w-[200px] z-5 opacity-[0.3]' src={cute2} alt="" srcSet="" />
             </> : <div className='w-full h-dvh flex justify-center items-center'>Loading...</div>}
 
+            {/* SHOWING ONLINE USERS AND DELETE ALL MESSAGES */}
             {showOnline && <div onClick={() => setShowOnline(false)} className='w-full h-dvh fixed top-0 left-0 flex justify-center items-center bg-gradient-to-t from-black z-30'>
                 <div onClick={(e) => e.stopPropagation()} className='w-[70%] h-[50%] flex flex-col gap-2 overflow-scroll bg-teal-500 rounded-lg p-2 relative'>
                     {onlineUser?.map((e, i) => (<p className='capitalize font-medium'>{i + 1}.  {e}</p>))}
-                    <button onClick={()=>handleDelete()} className='absolute bottom-2 right-3 p-2 text-[14px] bg-red-700 text-white rounded-lg'>Delete messages</button>
+                    <button onClick={() => handleDelete()} className='absolute bottom-2 right-3 p-2 text-[14px] bg-red-700 text-white rounded-lg'>Delete messages</button>
                 </div>
             </div>}
+
+            {/* <img src={star1} className='w-[10px] h-[10px] absolute top-[100px] left-[20px] z-[-1]' id='star1'></img> */}
 
 
         </div>

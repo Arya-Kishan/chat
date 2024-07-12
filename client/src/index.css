@@ -2,17 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
+body {
   background-color: rgb(1, 1, 42);
   color: white;
 }
 
-input{
+input {
   color: black;
   border: none;
   outline: none;
 }
 
-::-webkit-scrollbar{
+::-webkit-scrollbar {
   display: none;
+}
+
+/* The animation code */
+@keyframes example {
+  from {
+    transform: translateX("100px");
+  }
+  
+  to {
+    transform: translateX("200px");
+  }
+}
+
+/* The element to apply the animation to */
+#star1 {
+  animation-name: example;
+  animation-duration: 4s;
 }

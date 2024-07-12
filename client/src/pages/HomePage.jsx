@@ -19,7 +19,7 @@ const HomePage = () => {
     const [messages, setMessages] = useState([]);
     const [showOnline, setShowOnline] = useState(false);
     const [showHome, setShowHome] = useState(false);
-    const { user, setUser, onlineUser, setOnlineUser } = useContext(MyContext)
+    const { user, onlineUser, setOnlineUser } = useContext(MyContext)
 
     const handleSend = async () => {
         let message = { id: uniqId(), user: user, message: inputRef.current.value }
@@ -37,6 +37,7 @@ const HomePage = () => {
     useEffect(() => {
 
         globalSocket?.on("connected", (val) => {
+            console.log(val);
             setShowHome(true);
         })
 
@@ -73,7 +74,7 @@ const HomePage = () => {
         globalSocket?.emit("delete", "all _messages")
     }
 
-    console.log(showOnline);
+    console.log(showHome);
 
 
     return (

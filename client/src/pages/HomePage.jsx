@@ -12,12 +12,13 @@ import { globalSocket } from '../App';
 import { Navigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-const HomePage = ({ showHomePage }) => {
+const HomePage = () => {
 
     const inputRef = useRef("");
     const chatBoxRef = useRef(null);
     const [messages, setMessages] = useState([]);
     const [showOnline, setShowOnline] = useState(false);
+    const [showHome, setShowHome] = useState(false);
     const { user, setUser, onlineUser, setOnlineUser } = useContext(MyContext)
 
     const handleSend = async () => {
@@ -34,6 +35,10 @@ const HomePage = ({ showHomePage }) => {
     }
 
     useEffect(() => {
+
+        globalSocket?.on("connected", (val) => {
+            setShowHome(true);
+        })
 
         globalSocket?.on("receive_message", (val) => {
             console.log(val);
@@ -76,7 +81,7 @@ const HomePage = ({ showHomePage }) => {
 
             {user == "" && <Navigate to={"/"} />}
 
-            {showHomePage ? <>
+            {showHome ? <>
                 <div className='w-full h-[56px] flex justify-between items-center bg-teal-600 p-2'>
                     <img className='w-[40px]' src="https://api.multiavatar.com/Starcrasher.svg" alt="" srcSet="" />
                     <span onClick={() => setShowOnline(true)} className='font-semibold pr-4 capitalize'>online</span>

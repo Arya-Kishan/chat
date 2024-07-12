@@ -33,12 +33,13 @@ const getSocketIdByUserId = (userId) => {
 }
 
 io.on('connection', (socket) => {
-    console.log('a user connected', socket.handshake.query.userName);
+    console.log('a user connected', socket.handshake.query.userName, socket.id);
 
     const userId = socket.handshake.query.userName;
     if (userId !== undefined) {
         userSocketMap[userId] = socket.id;
     }
+    io.to(socket.id).emit("connected", `you got${socket.handshake.query.userName} connected`)
 
     io.emit("joined", socket.handshake.query.userName)
 

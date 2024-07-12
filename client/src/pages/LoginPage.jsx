@@ -12,12 +12,24 @@ const LoginPage = () => {
     const { user, setUser } = useContext(MyContext)
 
     const handleLogin = async () => {
-        setUser(inputRef1.current.value);
-        if (inputRef2.current.value == "arya") {
-            navigate("/home")
+
+        console.log(inputRef1.current.value?.length);
+
+        if (inputRef1.current.value?.length <= 0) {
+            toast("write your name")
+        } else if (inputRef2.current.value?.length <= 0) {
+            toast("write password")
         } else {
-            toast("wrong password")
+
+            setUser(inputRef1.current.value);
+            if (inputRef2.current.value == "arya") {
+                navigate("/home")
+            } else {
+                toast("wrong password")
+            }
+
         }
+
     }
 
     const handleUp = (e) => {

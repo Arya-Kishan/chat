@@ -11,7 +11,6 @@ export let globalSocket;
 function App() {
 
   const { user } = useContext(MyContext)
-  const [showHomePage, setShowHomePage] = useState(false)
 
   useEffect(() => {
 
@@ -21,16 +20,12 @@ function App() {
 
       // https://chat-4o4m.onrender.com
       // http://localhost:8080
-      globalSocket = io("https://chat-4o4m.onrender.com", {
+      globalSocket = io("http://localhost:8080", {
         query: {
           userName: user
         }
 
       });
-
-      if (globalSocket) {
-        setShowHomePage(true);
-      }
 
     }
 
@@ -41,7 +36,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<LoginPage />} />
-          <Route path='/home' element={<HomePage showHomePage={showHomePage} />} />
+          <Route path='/home' element={<HomePage />} />
         </Routes>
       </BrowserRouter>
     </>

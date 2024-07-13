@@ -63,7 +63,7 @@ const HomePage = () => {
 
     useEffect(() => {
 
-        globalSocket?.on("connected", (val) => {
+        globalSocket?.on("confirming_connection", (val) => {
             console.log(val);
             setShowHome(true);
         })

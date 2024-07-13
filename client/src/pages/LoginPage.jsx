@@ -13,8 +13,6 @@ const LoginPage = () => {
 
     const handleLogin = async () => {
 
-        console.log(inputRef1.current.value?.length);
-
         if (inputRef1.current.value?.length <= 0) {
             toast("write your name")
         } else if (inputRef2.current.value?.length <= 0) {

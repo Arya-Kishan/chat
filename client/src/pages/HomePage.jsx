@@ -18,7 +18,6 @@ const HomePage = () => {
     const chatBoxRef = useRef(null);
     const [messages, setMessages] = useState([]);
     const [showOnline, setShowOnline] = useState(false);
-    const [showHome, setShowHome] = useState(false);
     const { user, onlineUser, setOnlineUser } = useContext(MyContext)
 
     const handleSend = async () => {
@@ -46,9 +45,6 @@ const HomePage = () => {
         })
 
         globalSocket?.on("joined", (val) => {
-            if (val == user) {
-                setShowHome(true)
-            }
             toast(`${val} joined`)
         })
 
@@ -72,15 +68,13 @@ const HomePage = () => {
         globalSocket?.emit("delete", "all _messages")
     }
 
-    console.log(showHome);
-
 
     return (
         <div className='w-full h-dvh relative overflow-hidden flex flex-col'>
 
             {user == "" && <Navigate to={"/"} />}
 
-            {showHome ? <>
+            {globalSocket ? <>
                 <div className='w-full h-[56px] flex justify-between items-center bg-teal-600 p-2'>
                     <img className='w-[40px]' src="https://api.multiavatar.com/Starcrasher.svg" alt="" srcSet="" />
                     <span onClick={() => setShowOnline(true)} className='font-semibold pr-4 capitalize'>online</span>

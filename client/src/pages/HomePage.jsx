@@ -36,11 +36,6 @@ const HomePage = () => {
 
     useEffect(() => {
 
-        globalSocket?.on("connected", (val) => {
-            console.log(val);
-            setShowHome(true);
-        })
-
         globalSocket?.on("receive_message", (val) => {
             console.log(val);
             setMessages(prev => [...prev, val])
@@ -63,6 +58,17 @@ const HomePage = () => {
         })
 
         return () => globalSocket?.off("receive_message");
+
+    }, [globalSocket])
+
+    useEffect(() => {
+
+        globalSocket?.on("connected", (val) => {
+            console.log(val);
+            setShowHome(true);
+        })
+
+        return () => globalSocket?.off("connected");
 
     }, [globalSocket])
 

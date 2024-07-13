@@ -46,6 +46,9 @@ const HomePage = () => {
         })
 
         globalSocket?.on("joined", (val) => {
+            if (val == user) {
+                setShowHome(true)
+            }
             toast(`${val} joined`)
         })
 
@@ -58,15 +61,6 @@ const HomePage = () => {
         })
 
         return () => globalSocket?.off("receive_message");
-
-    }, [globalSocket])
-
-    useEffect(() => {
-
-        globalSocket?.on("confirming_connection", (val) => {
-            console.log(val);
-            setShowHome(true);
-        })
 
     }, [globalSocket])
 

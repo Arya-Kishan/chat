@@ -42,8 +42,6 @@ io.on('connection', (socket) => {
         userSocketMap[userId] = socket.id;
     }
 
-    socket.emit("confirming_connection", "user connected")
-
     io.emit("joined", socket.handshake.query.userName)
 
     io.emit("onlineUsers", Object.keys(userSocketMap))

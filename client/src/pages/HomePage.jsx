@@ -68,8 +68,6 @@ const HomePage = () => {
             setShowHome(true);
         })
 
-        return () => globalSocket?.off("connected");
-
     }, [globalSocket])
 
     useEffect(() => {

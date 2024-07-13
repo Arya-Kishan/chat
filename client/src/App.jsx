@@ -27,8 +27,6 @@ function App() {
 
       });
 
-      globalSocket?.emit("is_connected",user)
-
     }
 
   }, [user])

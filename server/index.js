@@ -42,11 +42,7 @@ io.on('connection', (socket) => {
         userSocketMap[userId] = socket.id;
     }
 
-
-    socket.on("is_connected", (val) => {
-        io.to(getSocketIdByUserId(val)).emit("confirming_connection", "user connected")
-    })
-
+    socket.emit("confirming_connection", "user connected")
 
     io.emit("joined", socket.handshake.query.userName)
 
